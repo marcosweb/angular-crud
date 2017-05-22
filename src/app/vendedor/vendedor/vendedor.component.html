@@ -1,0 +1,23 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h4>{{ vendedor.nome }}, {{ vendedor.idade }} anos</h4>
+    <p>{{ vendedor.empresa }}</p>
+  </div>
+  <div class="panel-footer">
+      <div class="form-inline" *ngIf="editar">
+        <div class="form-group">
+          <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome" [(ngModel)]="campoNome">
+          <input type="text" name="idade" id="idade" class="form-control" placeholder="Idade" [(ngModel)]="campoIdade">
+          <select name="empresa" id="empresa" class="form-control" [(ngModel)]="selectedValue" ngModel>
+            <option class="form-control" *ngFor="let empresa of empresas" value="{{ empresa.id }}">{{ empresa.razao_social }}</option>
+          </select>
+          <button class="btn btn-primary" (click)="onSalvar()">Salvar</button>
+          <button class="btn btn-cancel" (click)="onCancelar()">Cancelar</button>
+        </div>
+      </div>
+      <div *ngIf="!editar">
+        <button class="btn btn-default" (click)="onEditar($event)">Editar</button>
+        <button class="btn btn-default" (click)="onExcluir()">Excluir</button>
+      </div>
+  </div>
+</div>

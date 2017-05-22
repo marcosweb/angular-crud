@@ -1,0 +1,14 @@
+<h2>Adicionar Vendedor</h2>
+<hr>
+<form class="form-inline" #frm="ngForm" (ngSubmit)="onSubmit(frm)">
+    <div class="form-group">
+        <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome" ngModel>
+        <input type="text" name="idade" id="idade" class="form-control" placeholder="Idade" ngModel>
+        <select name="empresa" id="empresa" class="form-control" ngModel>
+            <option value="">Escolha uma Empresa</option>
+            <option class="form-control" *ngFor="let empresa of empresas" value="{{ empresa.id }}">{{ empresa.razao_social }}</option>
+        </select>
+        <button class="btn btn-primary" type="submit">Salvar</button>
+        <a href="#" [routerLink]="['/vendedores']" class="btn btn-default">Cancelar</a>
+    </div>
+</form>

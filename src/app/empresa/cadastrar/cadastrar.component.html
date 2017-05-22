@@ -1,0 +1,10 @@
+<h2>Adicionar Empresa</h2>
+<hr>
+<form class="form-inline" #frm="ngForm" (ngSubmit)="onSubmit(frm)">
+    <div class="form-group">
+        <input type="text" name="cnpj" id="cnpj" class="form-control" placeholder="CNPJ" ngModel>
+        <input type="text" name="razao_social" id="razao_social" class="form-control" placeholder="Razão Social" ngModel>
+        <button class="btn btn-primary" type="submit">Salvar</button>
+        <a href="#" [routerLink]="['/empresas']" class="btn btn-default">Cancelar</a>
+    </div>
+</form>

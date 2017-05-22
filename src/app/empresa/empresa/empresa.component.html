@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h4>{{ empresa.razao_social }}</h4>
+    <p>{{ empresa.cnpj }}</p>
+  </div>
+  <div class="panel-footer">
+      <div class="form-inline" *ngIf="editar">
+        <div class="form-group">
+          <input type="text" name="cnpj" id="cnpj" class="form-control" placeholder="CNPJ" [(ngModel)]="campoCnpj">
+          <input type="text" name="razao_social" id="razao_social" class="form-control" placeholder="Razão Social" [(ngModel)]="campoRazaoSocial">
+          <button class="btn btn-primary" (click)="onSalvar()">Salvar</button>
+          <button class="btn btn-cancel" (click)="onCancelar()">Cancelar</button>
+        </div>
+      </div>
+      <div *ngIf="!editar">
+        <button class="btn btn-default" (click)="onEditar()">Editar</button>
+        <button class="btn btn-default" (click)="onExcluir()">Excluir</button>
+      </div>
+  </div>
+</div>
