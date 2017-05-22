@@ -1,6 +1,7 @@
 import { Response } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 
 import { EmpresaService } from './../empresa.service';
 
@@ -11,7 +12,10 @@ import { EmpresaService } from './../empresa.service';
 })
 export class EmpresaCadastrarComponent implements OnInit {
 
-  constructor(private empresaService: EmpresaService) { }
+  constructor(
+    private empresaService: EmpresaService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
   }
@@ -30,7 +34,8 @@ export class EmpresaCadastrarComponent implements OnInit {
           alert('Erro!');
           return false;
         }
-        alert('A Empresa ' + form.value.razao_social + ' foi adicionada!')
+        alert('A Empresa ' + form.value.razao_social + ' foi adicionada!');
+        this.router.navigate(['/empresas']);
       }
     );
     form.reset();

@@ -13,8 +13,9 @@
         </div>
       </div>
       <div *ngIf="!editar">
-        <button class="btn btn-default" (click)="onEditar()">Editar</button>
-        <button class="btn btn-default" (click)="onExcluir()">Excluir</button>
+        <a href="#" class="btn btn-primary" [routerLink]="['/vendedores/'+empresa.id]">Ver Vendedores</a>
+        <button class="btn btn-default" (click)="onEditar()">Editar Empresa</button>
+        <button class="btn btn-default" (click)="onExcluir()">Excluir Empresa</button>
       </div>
   </div>
 </div>

@@ -10,7 +10,7 @@ export class VendedorService {
 
   mostraVendedor(id): Observable<any> {
     console.log(id);
-    return this.http.get('http://api.twopix/vendedor/' + id)
+    return this.http.get('http://endpoint.marcosweb.com.br/vendedor/' + id)
       .map((response: Response) => {
         console.log(response.json().vendedores);
         return response.json().vendedor;
@@ -18,7 +18,7 @@ export class VendedorService {
   }
 
   listaVendedores(empresa): Observable<any> {
-    const url = empresa ? 'http://api.twopix/vendedores/' + empresa : 'http://api.twopix/vendedores';
+    const url = empresa ? 'http://endpoint.marcosweb.com.br/vendedores/' + empresa : 'http://endpoint.marcosweb.com.br/vendedores';
     return this.http.get(url)
       .map((response: Response) => {
         return response.json().vendedores;
@@ -28,19 +28,19 @@ export class VendedorService {
   adicionarVendedor(nome: string, idade: number, empresa: number ) {
     const body = JSON.stringify({nome:nome, idade:idade, empresa: empresa});
     const headers = new Headers({'Content-Type':'application/json'});
-    return this.http.post('http://api.twopix/vendedor', body, {headers:headers});
+    return this.http.post('http://endpoint.marcosweb.com.br/vendedor', body, {headers:headers});
   }
 
   atualizaVendedor(id: number, nome: string, idade: number, empresa: number) {
     const body = JSON.stringify({nome:nome,idade:idade,empresa:empresa});
     const headers = new Headers({'Content-Type':'application/json'});
-    return this.http.put('http://api.twopix/vendedor/' + id, body, {headers:headers})
+    return this.http.put('http://endpoint.marcosweb.com.br/vendedor/' + id, body, {headers:headers})
       .map(
         (response: Response) => response.json()
       )
   }
 
   excluiVendedor(id: number) {
-    return this.http.delete('http://api.twopix/vendedor/' + id);
+    return this.http.delete('http://endpoint.marcosweb.com.br/vendedor/' + id);
   }
 }
