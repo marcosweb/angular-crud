@@ -21,7 +21,7 @@ export class VendedorService {
     const url = empresa ? 'http://endpoint.marcosweb.com.br/vendedores/' + empresa : 'http://endpoint.marcosweb.com.br/vendedores';
     return this.http.get(url)
       .map((response: Response) => {
-        return response.json().vendedores;
+        return response.json();
     });
   }
 

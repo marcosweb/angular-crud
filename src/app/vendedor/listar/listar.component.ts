@@ -14,6 +14,7 @@ export class VendedorListarComponent implements OnInit {
 
   vendedores: Vendedor[];
   empresas: Empresa[];
+  nomeEmpresa: String = '';
 
   constructor(
     private vendedorService: VendedorService,
@@ -28,7 +29,10 @@ export class VendedorListarComponent implements OnInit {
     });
     this.vendedorService.listaVendedores(empresaId)
       .subscribe(
-        (emp: Vendedor[]) => this.vendedores = emp,
+        (data) => {
+          this.vendedores = data.vendedores,
+          this.nomeEmpresa = 'da empresa ' + data.razao_social
+        },
         (error: Response) => console.log(error)
       );
   }

@@ -36,7 +36,10 @@ export class VendedorComponent implements OnInit {
   ngOnInit() {
     this.empresaService.listaEmpresas().
       subscribe(
-        (emp: Empresa[]) => this.empresas = emp,
+        (emp: Empresa[]) => {
+          console.log(emp);
+          this.empresas = emp
+        },
         (error: Response) => console.log(error)
       );
   }
