@@ -7,6 +7,7 @@ import { VendedorService } from './../vendedor.service';
 
 import { Empresa } from './../../empresa/empresa.interface';
 import { EmpresaService } from './../../empresa/empresa.service';
+import { HelperService } from './../../helper.service';
 
 @Component({
   selector: 'app-vendedor',
@@ -23,10 +24,13 @@ export class VendedorComponent implements OnInit {
   campoNome: string = '';
   campoIdade: number;
   campoEmpresa: number;
+  erros: string[];
+  mostraErro: boolean = false;
   
   constructor(
     private vendedorService: VendedorService,
-    private empresaService: EmpresaService
+    private empresaService: EmpresaService,
+    private helper: HelperService
   ) { }
 
   ngOnInit() {
@@ -39,6 +43,7 @@ export class VendedorComponent implements OnInit {
 
   onEditar(e) {
     this.editar = true;
+    this.mostraErro = false;
     this.campoNome = this.vendedor.nome;
     this.campoIdade = this.vendedor.idade;
     this.campoEmpresa = this.vendedor.empresa;
@@ -52,7 +57,14 @@ export class VendedorComponent implements OnInit {
       this.campoIdade,
       this.selectedValue
     ).subscribe(
-      () => {
+      (response) => {
+        this.erros = response.erro || null;
+        if (this.erros !== null) {
+          this.erros = this.helper.getError(this.erros);
+          this.mostraErro = true;
+          return this;
+        }
+        this.editar = false;
         this.vendedor.nome = this.campoNome;
         this.vendedor.idade = this.campoIdade;
         this.vendedor.empresa = this.selectedValue;
@@ -61,7 +73,6 @@ export class VendedorComponent implements OnInit {
         this.campoEmpresa = null;
       }
     )
-    this.editar = false;
   }
 
   onCancelar() {

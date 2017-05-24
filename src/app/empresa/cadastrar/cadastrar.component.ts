@@ -1,9 +1,11 @@
+
 import { Response } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 import { EmpresaService } from './../empresa.service';
+import { HelperService } from './../../helper.service';
 
 @Component({
   selector: 'empresa-cadastrar',
@@ -12,8 +14,12 @@ import { EmpresaService } from './../empresa.service';
 })
 export class EmpresaCadastrarComponent implements OnInit {
 
+  erros: string[];
+  mostraErro: boolean = false;
+
   constructor(
     private empresaService: EmpresaService,
+    private helper: HelperService,
     private router: Router
   ) { }
 
@@ -21,20 +27,19 @@ export class EmpresaCadastrarComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    if (form.value.cnpj.length === 0 || form.value.razao_social.length === 0){
-      alert('Preencha todos os campos');
-      return false;
-    }
+    this.mostraErro = false;
     this.empresaService.adicionarEmpresa(
       form.value.cnpj,
       form.value.razao_social
     ).subscribe(
       (response: Response) => {
-        if (response.json().empresa.id === undefined) {
-          alert('Erro!');
-          return false;
+        this.erros = response.json().erro || null;
+        if (this.erros !== null) {
+          this.erros = this.helper.getError(this.erros);
+          this.mostraErro = true;
+          return this;
         }
-        alert('A Empresa ' + form.value.razao_social + ' foi adicionada!');
+        alert('A Empresa ' + response.json().empresa.razao_social + ' foi adicionada!');
         this.router.navigate(['/empresas']);
       }
     );

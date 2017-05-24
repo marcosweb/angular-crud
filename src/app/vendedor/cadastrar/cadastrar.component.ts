@@ -8,6 +8,7 @@ import { VendedorService } from './../vendedor.service';
 
 import { Empresa } from './../../empresa/empresa.interface';
 import { EmpresaService } from './../../empresa/empresa.service';
+import { HelperService } from './../../helper.service';
 
 @Component({
   selector: 'vendedor-cadastrar',
@@ -17,10 +18,13 @@ import { EmpresaService } from './../../empresa/empresa.service';
 export class VendedorCadastrarComponent implements OnInit {
 
   empresas: Empresa[];
+  erros: string[];
+  mostraErro: boolean = false;
 
   constructor(
     private vendedorService: VendedorService,
     private empresaService: EmpresaService,
+    private helper: HelperService,
     private router: Router
   ) { }
 
@@ -33,28 +37,20 @@ export class VendedorCadastrarComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    if (
-      form.value.nome.length === 0 || 
-      form.value.idade.length === 0
-    ){
-      alert('Preencha todos os campos');
-      return false;
-    }
+    this.mostraErro = false;
     this.vendedorService.adicionarVendedor(
       form.value.nome,
       form.value.idade,
       form.value.empresa
     ).subscribe(
       (response: Response) => {
-        if (response.json().erro !== undefined) {
-          alert(response.json().erro);
-          return false;
+        this.erros = response.json().erro || null;
+        if (this.erros !== null) {
+          this.erros = this.helper.getError(this.erros);
+          this.mostraErro = true;
+          return this;
         }
-        if (response.json().vendedor.id === undefined) {
-          alert('Erro!');
-          return false;
-        }
-        alert('O Vendedor ' + form.value.nome + ' foi adicionado!');
+        alert('O Vendedor ' + response.json().vendedor.nome + ' foi adicionado!');
         this.router.navigate(['/vendedores']);
       }
     );

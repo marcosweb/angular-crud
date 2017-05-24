@@ -1,9 +1,10 @@
 import { Http } from '@angular/http';
-
+// import { Response } from '@angular/http';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Empresa } from './../empresa.interface';
 import { EmpresaService } from './../empresa.service';
+import { HelperService } from './../../helper.service';
 
 @Component({
   selector: 'app-empresa',
@@ -17,14 +18,20 @@ export class EmpresaComponent implements OnInit {
   editar: boolean = false;
   campoRazaoSocial: string = '';
   campoCnpj: string = '';
+  erros: string[];
+  mostraErro: boolean = false;
   
-  constructor(private empresaService: EmpresaService) { }
+  constructor(
+    private empresaService: EmpresaService,
+    private helper: HelperService
+  ) { }
 
   ngOnInit() {
   }
 
   onEditar() {
     this.editar = true;
+    this.mostraErro = false;
     this.campoCnpj = this.empresa.cnpj;
     this.campoRazaoSocial = this.empresa.razao_social;
   }
@@ -35,14 +42,21 @@ export class EmpresaComponent implements OnInit {
       this.campoCnpj, 
       this.campoRazaoSocial
     ).subscribe(
-      () => {
+      (response) => {
+        this.erros = response.erro || null;
+        if (this.erros !== null) {
+          this.erros = this.helper.getError(this.erros);
+          this.mostraErro = true;
+          return this;
+        }
+        this.editar = false;
         this.empresa.cnpj = this.campoCnpj;
         this.empresa.razao_social = this.campoRazaoSocial;
         this.campoCnpj = '';
         this.campoRazaoSocial = '';
       }
     )
-    this.editar = false;
+    
   }
 
   onCancelar() {

@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -6,6 +7,7 @@ import { AppComponent } from './app.component';
 import { EmpresaModule } from './empresa/empresa.module';
 import { VendedorModule } from './vendedor/vendedor.module';
 import { Pagina404Component } from './pagina404/pagina404.component';
+import { HelperService } from './helper.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,7 @@ import { Pagina404Component } from './pagina404/pagina404.component';
     EmpresaModule,
     VendedorModule
   ],
-  providers: [],
+  providers: [HelperService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
