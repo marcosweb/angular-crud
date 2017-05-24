@@ -30,8 +30,8 @@ export class VendedorListarComponent implements OnInit {
     this.vendedorService.listaVendedores(empresaId)
       .subscribe(
         (data) => {
-          this.vendedores = data.vendedores,
-          this.nomeEmpresa = 'da empresa ' + data.razao_social
+          this.vendedores = data.vendedores;
+          this.nomeEmpresa = data.razao_social ? 'da empresa ' + data.razao_social : '';
         },
         (error: Response) => console.log(error)
       );
